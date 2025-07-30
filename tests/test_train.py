@@ -1,7 +1,12 @@
 import os
 import joblib
+import subprocess
 from sklearn.datasets import fetch_california_housing
 from sklearn.metrics import r2_score
+
+# Run training script before tests
+def setup_module(module):
+    subprocess.run(["python", "src/train.py"], check=True)
 
 def test_model_exists():
     assert os.path.exists("models/sklearn_model.joblib"), "Model file not found!"
