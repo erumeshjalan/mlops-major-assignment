@@ -21,8 +21,9 @@ jobs:
         run: |
           pip install -r requirements.txt
 
-      - name: Run unit tests
+      - name: Run pytest
         run: |
+          python src/train.py  # Make sure model exists before testing
           pytest
 
   train-and-quantize:
@@ -56,14 +57,7 @@ jobs:
       - name: Set up Docker
         uses: docker/setup-buildx-action@v3
 
-      - name: Install dependencies
-        run: |
-          pip install -r requirements.txt
-
-      - name: Build Docker image
+      - name: Build and run container
         run: |
           docker build -t mlops-predict .
-
-      - name: Run Docker container
-        run: |
           docker run mlops-predict
